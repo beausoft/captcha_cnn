@@ -1,7 +1,6 @@
 import torch
 import logging
 from torch.nn import MultiLabelSoftMarginLoss
-from torch.autograd import Variable
 from torch.optim import Adam
 from settings import *
 from model import CaptchaModelCNN
@@ -23,8 +22,8 @@ def start_train():
     for epoch in range(EPOCHS):
         for i, (image, label, order) in enumerate(ids):
             # 包装Tensor对象并记录其operations
-            images = Variable(image).cuda()
-            labels = Variable(label.float()).cuda()
+            images = image.cuda()
+            labels = label.cuda().float()
             predict_labels = model(images)
             loss = criterion(predict_labels, labels)
             # 保持当前参数状态并基于计算得到的梯度进行参数更新。

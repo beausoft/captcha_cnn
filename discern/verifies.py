@@ -1,7 +1,6 @@
 import numpy
 import torch
 import logging
-from torch.autograd import Variable
 
 from settings import *
 from convert import one_hot_decode
@@ -21,7 +20,7 @@ def start_verifies(folder):
     correct, total, current, cha_len,  = 0, 0, 0, len(CHARACTER)
     for i, (image, label, order) in enumerate(verifies):
         captcha = one_hot_decode(order)  # 正确的验证码
-        images = Variable(image).cuda()
+        images = image.cuda()
         predict_label = model(images)
         predicts = []
         for k in range(CAPTCHA_NUMBER):
